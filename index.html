@@ -3,152 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Paint Shop - Consulta de Estatus</title>
+    <title>The Paint Shop</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --success: #16a34a;
-        }
-        
+        /* --- ESTILOS MODERNOS PREMIUM (DARK MODE / NEON) --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--dark);
-            padding: 20px;
+            background-color: #12161a; /* Fondo oscuro tipo taller premium */
+            color: #e2e8f0;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
+        /* Encabezado Novedoso */
         header {
+            background: linear-gradient(135deg, #1e252b 0%, #0f1316 100%);
+            padding: 2.5rem 1rem;
             text-align: center;
-            margin-bottom: 30px;
+            border-bottom: 3px solid #00f2fe; /* Línea neón */
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.15);
         }
 
-        header h1 {
-            color: var(--dark);
-            font-size: 24px;
+        .logo-text {
+            font-size: 2.8rem;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.6), 0 0 20px rgba(0, 242, 254, 0.3);
         }
 
-        header p {
-            color: #64748b;
-            font-size: 14px;
-            margin-top: 5px;
+        .subtitle {
+            color: #a0aec0;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
-        .search-box {
+        /* Contenedor Principal */
+        .container {
+            max-width: 1000px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Tarjeta de Bienvenida o Banner Principal */
+        .hero-card {
+            background: #1e252b;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid #2d3748;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #00f2fe;
+        }
+
+        .hero-card h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        /* Grid de Servicios / Secciones */
+        .grid-servicios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card-servicio {
+            background: #1e252b;
+            border: 1px solid #2d3748;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Efecto al pasar el mouse por las tarjetas */
+        .card-servicio:hover {
+            transform: translateY(-5px);
+            border-color: #00f2fe;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+        }
+
+        .card-servicio h3 {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 25px;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .search-box label {
-            font-weight: 600;
-            font-size: 14px;
+        /* Badge o Indicador de Estatus Novedoso */
+        .status-badge {
+            background: rgba(0, 242, 254, 0.1);
+            color: #00f2fe;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            border: 1px solid #00f2fe;
+            text-transform: uppercase;
         }
 
-        .search-box input {
+        .card-servicio p {
+            color: #a0aec0;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Botones estilo Neón Metálico */
+        .btn-neon {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            background: transparent;
+            color: #00f2fe;
+            border: 2px solid #00f2fe;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-neon:hover {
+            background: #00f2fe;
+            color: #12161a;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            cursor: pointer;
+        }
+
+        /* --- SECCIÓN INTERACTIVA DE BÚSQUEDA --- */
+        .search-container {
+            display: none;
+            margin-top: 1.5rem;
+            background: #1a202c;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #2d3748;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .search-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-weight: bold;
+        }
+
+        .search-container input {
+            width: 100%;
             padding: 12px;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 16px;
+            background: #12161a;
+            border: 2px solid #2d3748;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 12px;
             text-transform: uppercase;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        .search-box input:focus {
-            border-color: var(--primary);
+        .search-container input:focus {
+            border-color: #00f2fe;
         }
 
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        .status-card {
+        .error-message {
             display: none;
-            border: 1px solid #e2e8f0;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            border: 1px solid #ff6b6b;
+        }
+
+        .status-result-card {
+            display: none;
+            background: #1e252b;
+            border: 2px solid #00f2fe;
             border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            background: #fff;
-        }
-
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 10px;
-        }
-
-        .badge {
-            background-color: #fef3c7;
-            color: #d97706;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
         }
 
         .info-row {
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 0.4rem;
         }
 
         .info-row strong {
-            color: #475569;
+            color: #00f2fe;
         }
 
         .gallery-title {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 15px;
-            color: var(--dark);
-            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
         }
 
         .gallery {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
 
         .gallery-item {
-            background: #f1f5f9;
+            background: #12161a;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #2d3748;
         }
 
         .gallery-item img {
@@ -158,85 +254,126 @@
         }
 
         .gallery-item .caption {
-            padding: 8px 12px;
-            font-size: 12px;
-            color: #64748b;
-            background: white;
-            border-top: 1px solid #e2e8f0;
+            padding: 10px;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            background: #1e252b;
         }
 
-        .error-message {
-            display: none;
-            color: #dc2626;
-            background-color: #fee2e2;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
+        footer {
             text-align: center;
-            margin-top: 15px;
+            padding: 3rem 1rem;
+            color: #718096;
+            font-size: 0.85rem;
+            border-top: 1px solid #2d3748;
+            margin-top: 4rem;
         }
     </style>
 </head>
 <body>
 
+    <header>
+        <div class="logo-text">The Paint Shop</div>
+        <div class="subtitle">Estética Automotriz y Acabados de Alta Calidad</div>
+    </header>
+
     <div class="container">
-        <header>
-            <h1>The Paint Shop</h1>
-            <p>Hojalatería, Pintura y Restauración</p>
-        </header>
-
-        <div class="search-box">
-            <label for="orderInput">Consulta el estatus de tu vehículo:</label>
-            <input type="text" id="orderInput" placeholder="Ej. GCH">
-            <button class="btn" onclick="buscarEstatus()">Consultar Orden</button>
+        
+        <div class="hero-card">
+            <h2>Calidad, Precisión y Tiempos Record</h2>
+            <p>Transformamos y restauramos la imagen de tu vehículo con tecnología de punta y los mejores materiales del mercado. Diseñado para los que buscan la perfección en cada detalle.</p>
         </div>
 
-        <div id="errorMessage" class="error-message">
-            No se encontró ninguna orden o vehículo con ese código. Intenta de nuevo.
+        <h2 style="color: #fff; margin-bottom: 1rem; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">Nuestros Módulos</h2>
+        
+        <div class="grid-servicios">
+            
+            <div class="card-servicio">
+                <h3>Hojalatería <span class="status-badge">Precisión</span></h3>
+                <p>Reparación de carrocería, alineación de chasis y restauración de piezas dañadas con acabados milimétricos.</p>
+                <button class="btn-neon" onclick="alert('Próximamente: Galería de trabajos en Hojalatería')">Ver Trabajos</button>
+            </div>
+
+            <div class="card-servicio">
+                <h3>Pintura Premium <span class="status-badge">Acabado</span></h3>
+                <p>Aplicación en cabina de alta tecnología, e igualación de color computarizada para un brillo y durabilidad garantizada.</p>
+                <button class="btn-neon" onclick="alert('Próximamente: Catálogo de colores Premium')">Galería de Colores</button>
+            </div>
+
+            <div class="card-servicio">
+                <h3>Estatus de Entrega <span class="status-badge">En Vivo</span></h3>
+                <p>¿Tienes un auto con nosotros? Consulta el avance de tu orden y la fecha estimada de salida en tiempo real.</p>
+                <button class="btn-neon" onclick="mostrarBuscador()">Consultar Orden</button>
+                
+                <div id="searchContainer" class="search-container">
+                    <label for="orderInput">Ingresa las placas o código:</label>
+                    <input type="text" id="orderInput" placeholder="Ej. GCH">
+                    <button class="btn-neon" onclick="buscarEstatus()">Buscar</button>
+                    <div id="errorMessage" class="error-message">Orden no encontrada. Intenta con GCH.</div>
+                </div>
+            </div>
+
         </div>
 
-        <div id="statusCard" class="status-card">
-            <div class="status-header">
-                <h3>Orden: <span id="lblOrden">-</span></h3>
-                <span class="badge" id="lblEstatus">En Proceso</span>
+        <div id="statusResultCard" class="status-result-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #2d3748; padding-bottom: 0.5rem;">
+                <h3 style="color: #fff;">Orden: <span id="lblOrden" style="color: #00f2fe;">-</span></h3>
+                <span class="status-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: #fbbf24;">En Proceso</span>
             </div>
             
-            <div class="info-row"><strong>Vehículo:</strong> <span id="lblVehiculo">GCH</span></div>
+            <div class="info-row"><strong>Vehículo:</strong> Marca GCH</div>
             <div class="info-row"><strong>Estatus del Vehículo:</strong> En Hojalatería</div>
             <div class="info-row"><strong>Fase Actual:</strong> Reparación e Impacto (Día 1)</div>
-            <div class="info-row"><strong>Última actualización:</strong> Hoy</div>
+            <div class="info-row"><strong>Última Actualización:</strong> Hoy</div>
 
             <div class="gallery-title">Evidencia de Avances (Día 1):</div>
             
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="hojalateriagch01d1.jpg" alt="Avance 1">
-                    <div class="caption">Foto 1 - Inicio de proceso y desarme.</div>
+                    <div class="caption">Foto 1 - Inicio de proceso y desarme de secciones dañadas.</div>
                 </div>
                 <div class="gallery-item">
                     <img src="hojalateriagch02d1.jpg" alt="Avance 2">
-                    <div class="caption">Foto 2 - Reparación y enderezado de lámina.</div>
+                    <div class="caption">Foto 2 - Reparación y enderezado estructural de lámina.</div>
                 </div>
                 <div class="gallery-item">
                     <img src="hojalateriagch03d1.jpg" alt="Avance 3">
-                    <div class="caption">Foto 3 - Ajuste de líneas de carrocería.</div>
+                    <div class="caption">Foto 3 - Ajuste milimétrico de líneas de carrocería.</div>
                 </div>
             </div>
         </div>
+
     </div>
 
+    <footer>
+        <p>&copy; 2026 THE PAINT SHOP. Todos los derechos reservados.</p>
+    </footer>
+
     <script>
+        function mostrarBuscador() {
+            var searchBox = document.getElementById('searchContainer');
+            if (searchBox.style.display === 'block') {
+                searchBox.style.display = 'none';
+            } else {
+                searchBox.style.display = 'block';
+            }
+        }
+
         function buscarEstatus() {
             var input = document.getElementById('orderInput').value.trim().toUpperCase();
-            var card = document.getElementById('statusCard');
+            var resultCard = document.getElementById('statusResultCard');
             var error = document.getElementById('errorMessage');
             
             if (input === 'GCH') {
                 document.getElementById('lblOrden').innerText = input;
-                card.style.display = 'block';
+                resultCard.style.display = 'block';
                 error.style.display = 'none';
+                
+                // Hace un pequeño scroll hacia abajo suave para ver las fotos de inmediato
+                resultCard.scrollIntoView({ behavior: 'smooth' });
             } else {
-                card.style.display = 'none';
+                resultCard.style.display = 'none';
                 error.style.display = 'block';
             }
         }
