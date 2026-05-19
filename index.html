@@ -201,8 +201,9 @@
                 <span class="badge" id="lblEstatus">En Proceso</span>
             </div>
             
-            <div class="info-row"><strong>Vehículo:</strong> <span id="lblVehiculo">Marca GCH</span></div>
-            <div class="info-row"><strong>Fase Actual:</strong> Hojalatería (Día 1)</div>
+            <div class="info-row"><strong>Vehículo:</strong> <span id="lblVehiculo">GCH</span></div>
+            <div class="info-row"><strong>Estatus del Vehículo:</strong> En Hojalatería</div>
+            <div class="info-row"><strong>Fase Actual:</strong> Reparación e Impacto (Día 1)</div>
             <div class="info-row"><strong>Última actualización:</strong> Hoy</div>
 
             <div class="gallery-title">Evidencia de Avances (Día 1):</div>
@@ -210,15 +211,15 @@
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="hojalateriagch01d1.jpg" alt="Avance 1">
-                    <div class="caption">Foto 1 - Inicio de desarme y enderezado.</div>
+                    <div class="caption">Foto 1 - Inicio de proceso y desarme.</div>
                 </div>
                 <div class="gallery-item">
                     <img src="hojalateriagch02d1.jpg" alt="Avance 2">
-                    <div class="caption">Foto 2 - Reparación de paneles e impacto.</div>
+                    <div class="caption">Foto 2 - Reparación y enderezado de lámina.</div>
                 </div>
                 <div class="gallery-item">
                     <img src="hojalateriagch03d1.jpg" alt="Avance 3">
-                    <div class="caption">Foto 3 - Detalle de alineación de líneas de carrocería.</div>
+                    <div class="caption">Foto 3 - Ajuste de líneas de carrocería.</div>
                 </div>
             </div>
         </div>
@@ -230,7 +231,6 @@
             var card = document.getElementById('statusCard');
             var error = document.getElementById('errorMessage');
             
-            // Si el cliente escribe GCH, muestra la información y las fotos
             if (input === 'GCH') {
                 document.getElementById('lblOrden').innerText = input;
                 card.style.display = 'block';
