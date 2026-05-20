@@ -14,17 +14,16 @@
         }
 
         body {
-            background-color: #12161a; /* Fondo oscuro tipo taller premium */
+            background-color: #12161a;
             color: #e2e8f0;
             line-height: 1.6;
         }
 
-        /* Encabezado Novedoso */
         header {
             background: linear-gradient(135deg, #1e252b 0%, #0f1316 100%);
             padding: 2.5rem 1rem;
             text-align: center;
-            border-bottom: 3px solid #00f2fe; /* Línea neón */
+            border-bottom: 3px solid #00f2fe;
             box-shadow: 0 4px 20px rgba(0, 242, 254, 0.15);
         }
 
@@ -45,14 +44,12 @@
             letter-spacing: 3px;
         }
 
-        /* Contenedor Principal */
         .container {
             max-width: 1000px;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
         }
 
-        /* Tarjeta de Bienvenida o Banner Principal */
         .hero-card {
             background: #1e252b;
             border-radius: 12px;
@@ -81,7 +78,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Grid de Servicios / Secciones */
         .grid-servicios {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -98,7 +94,6 @@
             position: relative;
         }
 
-        /* Efecto al pasar el mouse por las tarjetas */
         .card-servicio:hover {
             transform: translateY(-5px);
             border-color: #00f2fe;
@@ -114,7 +109,6 @@
             justify-content: space-between;
         }
 
-        /* Badge o Indicador de Estatus Novedoso */
         .status-badge {
             background: rgba(0, 242, 254, 0.1);
             color: #00f2fe;
@@ -131,7 +125,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Botones estilo Neón Metálico */
         .btn-neon {
             display: inline-block;
             width: 100%;
@@ -259,6 +252,15 @@
             color: #a0aec0;
             background: #1e252b;
         }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #718096;
+            font-size: 0.85rem;
+            border-top: 1px solid #2d3748;
+            margin-top: 4rem;
+        }
     </style>
 </head>
 <body>
@@ -309,7 +311,7 @@
         <div id="statusResultCard" class="status-result-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #2d3748; padding-bottom: 0.5rem;">
                 <h3 style="color: #fff;">Orden: <span id="lblOrden" style="color: #00f2fe;">-</span></h3>
-                <span id="lblBadge" class="status-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: #fbbf24;">En Proceso</span>
+                <span class="status-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: #fbbf24;">En Proceso</span>
             </div>
             
             <div class="info-row"><strong>Vehículo:</strong> <span id="lblVehiculo">-</span></div>
@@ -319,8 +321,7 @@
 
             <div class="gallery-title">Evidencia de Avances en Taller:</div>
             
-            <div id="galleryContainer" class="gallery">
-                </div>
+            <div id="galleryContainer" class="gallery"></div>
         </div>
 
     </div>
@@ -330,9 +331,9 @@
     </footer>
 
     <script>
-        // BASE DE DATOS DEL TALLER
         const ordenesTaller = {
             "GCH": {
+                title: "GCH",
                 vehiculo: "Marca GCH",
                 estatus: "En Hojalatería",
                 fase: "Reparación e Impacto (Etapa 1)",
@@ -343,6 +344,7 @@
                 ]
             },
             "VOCHO": {
+                title: "VOCHO",
                 vehiculo: "Volkswagen Sedán (Vocho)",
                 estatus: "En Hojalatería",
                 fase: "Restauración de Carrocería y Pisos (Etapa 1)",
@@ -355,21 +357,7 @@
                 ]
             },
             "WINDSTAR": {
-                vehiculo: "Ford Windstar / Camioneta Familiar",
-                estatus: "En Hojalatería",
-                fase: "Reparación Completa de Golpe Lateral (Etapa 1)",
-                fotos: [
-                    { src: "hojalateriawindare01.jpg", desc: "Foto 1 - Evaluación del daño y anclaje en banco de estirado." },
-                    { src: "hojalateriawindare02.jpg", desc: "Foto 2 - Proceso de tracción para recuperar dimensiones originales." },
-                    { src: "hojalateriawindare03.jpg", desc: "Foto 3 - Desabollado manual de paneles y marcos de puertas." },
-                    { src: "hojalateriawindare04.jpg", desc: "Foto 4 - Ajuste de holguras y cuadraje de puertas laterales." },
-                    { src: "hojalateriawindare05.jpg", desc: "Foto 5 - Detallado milimétrico de líneas de diseño de la lámina." },
-                    { src: "hojalateriawindare06.jpg", desc: "Foto 6 - Esmerilado e igualación de superficies soldadas." },
-                    { src: "hojalateriawindare07.jpg", desc: "Foto 7 - Control de calidad en hojalatería, lista para el área de pintura." }
-                ]
-            },
-            // Alias por si escriben el nombre del archivo directo
-            "WINDARE": {
+                title: "WINDSTAR",
                 vehiculo: "Ford Windstar / Camioneta Familiar",
                 estatus: "En Hojalatería",
                 fase: "Reparación Completa de Golpe Lateral (Etapa 1)",
@@ -396,16 +384,20 @@
             var error = document.getElementById('errorMessage');
             var galleryContainer = document.getElementById('galleryContainer');
             
-            if (ordenesTaller[input]) {
-                var data = ordenesTaller[input];
+            // Sistema inteligente de búsqueda (acepta variaciones)
+            var targetKey = null;
+            if (input === 'GCH') targetKey = 'GCH';
+            else if (input === 'VOCHO' || input === 'VW') targetKey = 'VOCHO';
+            else if (input === 'WINDSTAR' || input === 'WINDARE' || input === 'WIND') targetKey = 'WINDSTAR';
+
+            if (targetKey && ordenesTaller[targetKey]) {
+                var data = ordenesTaller[targetKey];
                 
-                // Rellenar datos de texto
-                document.getElementById('lblOrden').innerText = input;
+                document.getElementById('lblOrden').innerText = data.title;
                 document.getElementById('lblVehiculo').innerText = data.vehiculo;
                 document.getElementById('lblEstatus').innerText = data.estatus;
                 document.getElementById('lblFase').innerText = data.fase;
                 
-                // Limpiar galería anterior e insertar las fotos de esta orden
                 galleryContainer.innerHTML = "";
                 data.fotos.forEach(function(foto) {
                     var itemHtml = `
