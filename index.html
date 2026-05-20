@@ -259,15 +259,6 @@
             color: #a0aec0;
             background: #1e252b;
         }
-
-        footer {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #718096;
-            font-size: 0.85rem;
-            border-top: 1px solid #2d3748;
-            margin-top: 4rem;
-        }
     </style>
 </head>
 <body>
@@ -306,10 +297,10 @@
                 <button class="btn-neon" onclick="mostrarBuscador()">Consultar Orden</button>
                 
                 <div id="searchContainer" class="search-container">
-                    <label for="orderInput">Ingresa las placas o código:</label>
-                    <input type="text" id="orderInput" placeholder="Ej. GCH">
+                    <label for="orderInput">Ingresa el código del vehículo:</label>
+                    <input type="text" id="orderInput" placeholder="Ej. GCH, VOCHO, WINDSTAR">
                     <button class="btn-neon" onclick="buscarEstatus()">Buscar</button>
-                    <div id="errorMessage" class="error-message">Orden no encontrada. Intenta con GCH.</div>
+                    <div id="errorMessage" class="error-message">Código no encontrado. Intenta con GCH, VOCHO o WINDSTAR.</div>
                 </div>
             </div>
 
@@ -318,30 +309,18 @@
         <div id="statusResultCard" class="status-result-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #2d3748; padding-bottom: 0.5rem;">
                 <h3 style="color: #fff;">Orden: <span id="lblOrden" style="color: #00f2fe;">-</span></h3>
-                <span class="status-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: #fbbf24;">En Proceso</span>
+                <span id="lblBadge" class="status-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border-color: #fbbf24;">En Proceso</span>
             </div>
             
-            <div class="info-row"><strong>Vehículo:</strong> Marca GCH</div>
-            <div class="info-row"><strong>Estatus del Vehículo:</strong> En Hojalatería</div>
-            <div class="info-row"><strong>Fase Actual:</strong> Reparación e Impacto (Día 1)</div>
+            <div class="info-row"><strong>Vehículo:</strong> <span id="lblVehiculo">-</span></div>
+            <div class="info-row"><strong>Estatus del Vehículo:</strong> <span id="lblEstatus">-</span></div>
+            <div class="info-row"><strong>Fase Actual:</strong> <span id="lblFase">-</span></div>
             <div class="info-row"><strong>Última Actualización:</strong> Hoy</div>
 
-            <div class="gallery-title">Evidencia de Avances (Día 1):</div>
+            <div class="gallery-title">Evidencia de Avances en Taller:</div>
             
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="hojalateriagch01d1.jpg" alt="Avance 1">
-                    <div class="caption">Foto 1 - Inicio de proceso y desarme de secciones dañadas.</div>
+            <div id="galleryContainer" class="gallery">
                 </div>
-                <div class="gallery-item">
-                    <img src="hojalateriagch02d1.jpg" alt="Avance 2">
-                    <div class="caption">Foto 2 - Reparación y enderezado estructural de lámina.</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="hojalateriagch03d1.jpg" alt="Avance 3">
-                    <div class="caption">Foto 3 - Ajuste milimétrico de líneas de carrocería.</div>
-                </div>
-            </div>
         </div>
 
     </div>
@@ -351,26 +330,95 @@
     </footer>
 
     <script>
+        // BASE DE DATOS DEL TALLER
+        const ordenesTaller = {
+            "GCH": {
+                vehiculo: "Marca GCH",
+                estatus: "En Hojalatería",
+                fase: "Reparación e Impacto (Etapa 1)",
+                fotos: [
+                    { src: "hojalateriagch01d1.jpg", desc: "Foto 1 - Inicio de proceso y desarme de secciones dañadas." },
+                    { src: "hojalateriagch02d1.jpg", desc: "Foto 2 - Reparación y enderezado estructural de lámina." },
+                    { src: "hojalateriagch03d1.jpg", desc: "Foto 3 - Ajuste milimétrico de líneas de carrocería." }
+                ]
+            },
+            "VOCHO": {
+                vehiculo: "Volkswagen Sedán (Vocho)",
+                estatus: "En Hojalatería",
+                fase: "Restauración de Carrocería y Pisos (Etapa 1)",
+                fotos: [
+                    { src: "hojalateriavocho01e1.jpg", desc: "Foto 1 - Inspección inicial de zonas con óxido y desarme." },
+                    { src: "hojalateriavocho02e1.jpg", desc: "Foto 2 - Saneamiento de lámina vieja y preparación de cortes." },
+                    { src: "hojalateriavocho03e1.jpg", desc: "Foto 3 - Alineación de paneles estructurales del Vocho." },
+                    { src: "hojalateriavocho04e1.jpg", desc: "Foto 4 - Aplicación de soldadura y refuerzos en secciones críticas." },
+                    { src: "hojalateriavocho05e1.jpg", desc: "Foto 5 - Acabado final de hojalatería listo para tratamiento anticorrosivo." }
+                ]
+            },
+            "WINDSTAR": {
+                vehiculo: "Ford Windstar / Camioneta Familiar",
+                estatus: "En Hojalatería",
+                fase: "Reparación Completa de Golpe Lateral (Etapa 1)",
+                fotos: [
+                    { src: "hojalateriawindare01.jpg", desc: "Foto 1 - Evaluación del daño y anclaje en banco de estirado." },
+                    { src: "hojalateriawindare02.jpg", desc: "Foto 2 - Proceso de tracción para recuperar dimensiones originales." },
+                    { src: "hojalateriawindare03.jpg", desc: "Foto 3 - Desabollado manual de paneles y marcos de puertas." },
+                    { src: "hojalateriawindare04.jpg", desc: "Foto 4 - Ajuste de holguras y cuadraje de puertas laterales." },
+                    { src: "hojalateriawindare05.jpg", desc: "Foto 5 - Detallado milimétrico de líneas de diseño de la lámina." },
+                    { src: "hojalateriawindare06.jpg", desc: "Foto 6 - Esmerilado e igualación de superficies soldadas." },
+                    { src: "hojalateriawindare07.jpg", desc: "Foto 7 - Control de calidad en hojalatería, lista para el área de pintura." }
+                ]
+            },
+            // Alias por si escriben el nombre del archivo directo
+            "WINDARE": {
+                vehiculo: "Ford Windstar / Camioneta Familiar",
+                estatus: "En Hojalatería",
+                fase: "Reparación Completa de Golpe Lateral (Etapa 1)",
+                fotos: [
+                    { src: "hojalateriawindare01.jpg", desc: "Foto 1 - Evaluación del daño y anclaje en banco de estirado." },
+                    { src: "hojalateriawindare02.jpg", desc: "Foto 2 - Proceso de tracción para recuperar dimensiones originales." },
+                    { src: "hojalateriawindare03.jpg", desc: "Foto 3 - Desabollado manual de paneles y marcos de puertas." },
+                    { src: "hojalateriawindare04.jpg", desc: "Foto 4 - Ajuste de holguras y cuadraje de puertas laterales." },
+                    { src: "hojalateriawindare05.jpg", desc: "Foto 5 - Detallado milimétrico de líneas de diseño de la lámina." },
+                    { src: "hojalateriawindare06.jpg", desc: "Foto 6 - Esmerilado e igualación de superficies soldadas." },
+                    { src: "hojalateriawindare07.jpg", desc: "Foto 7 - Control de calidad en hojalatería, lista para el área de pintura." }
+                ]
+            }
+        };
+
         function mostrarBuscador() {
             var searchBox = document.getElementById('searchContainer');
-            if (searchBox.style.display === 'block') {
-                searchBox.style.display = 'none';
-            } else {
-                searchBox.style.display = 'block';
-            }
+            searchBox.style.display = (searchBox.style.display === 'block') ? 'none' : 'block';
         }
 
         function buscarEstatus() {
             var input = document.getElementById('orderInput').value.trim().toUpperCase();
             var resultCard = document.getElementById('statusResultCard');
             var error = document.getElementById('errorMessage');
+            var galleryContainer = document.getElementById('galleryContainer');
             
-            if (input === 'GCH') {
+            if (ordenesTaller[input]) {
+                var data = ordenesTaller[input];
+                
+                // Rellenar datos de texto
                 document.getElementById('lblOrden').innerText = input;
+                document.getElementById('lblVehiculo').innerText = data.vehiculo;
+                document.getElementById('lblEstatus').innerText = data.estatus;
+                document.getElementById('lblFase').innerText = data.fase;
+                
+                // Limpiar galería anterior e insertar las fotos de esta orden
+                galleryContainer.innerHTML = "";
+                data.fotos.forEach(function(foto) {
+                    var itemHtml = `
+                        <div class="gallery-item">
+                            <img src="${foto.src}" alt="${foto.desc}">
+                            <div class="caption">${foto.desc}</div>
+                        </div>
+                    `;
+                    galleryContainer.innerHTML += itemHtml;
+                });
+                
                 resultCard.style.display = 'block';
                 error.style.display = 'none';
-                
-                // Hace un pequeño scroll hacia abajo suave para ver las fotos de inmediato
                 resultCard.scrollIntoView({ behavior: 'smooth' });
             } else {
                 resultCard.style.display = 'none';
@@ -378,6 +426,5 @@
             }
         }
     </script>
-
 </body>
 </html>
