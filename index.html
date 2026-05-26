@@ -335,12 +335,17 @@
             "GCH": {
                 title: "GCH",
                 vehiculo: "Marca GCH",
-                estatus: "En Hojalatería",
-                fase: "Reparación e Impacto (Etapa 1)",
+                estatus: "Área de Pintura Premium",
+                fase: "Pintura, Aplicación de Transparente y Acabado Final",
                 fotos: [
                     { src: "hojalateriagch01d1.jpg", desc: "Foto 1 - Inicio de proceso y desarme de secciones dañadas." },
                     { src: "hojalateriagch02d1.jpg", desc: "Foto 2 - Reparación y enderezado estructural de lámina." },
-                    { src: "hojalateriagch03d1.jpg", desc: "Foto 3 - Ajuste milimétrico de líneas de carrocería." }
+                    { src: "hojalateriagch03d1.jpg", desc: "Foto 3 - Ajuste milimétrico de líneas de carrocería." },
+                    { src: "hojalateriagch04d1.jpg", desc: "Foto 4 - Refuerzo de uniones y detallado fino de imperfecciones." },
+                    { src: "hojalateriagch05d1.jpg", desc: "Foto 5 - Lijado de nivelación y aplicación de fondo anticorrosivo." },
+                    { src: "hojalateriagch06d1.jpg", desc: "Foto 6 - Preparación de superficie final y enmascarado listo para cabina." },
+                    { src: "terminadogch01.jpg", desc: "Foto 7 - Aplicación de color computarizado y base de alta adherencia." },
+                    { src: "terminadogch02.jpg", desc: "Foto 8 - Aplicación de barniz transparente premium y horneado para brillo espejo." }
                 ]
             },
             "VOCHO": {
@@ -363,7 +368,7 @@
                 fase: "Reparación Completa de Golpe Lateral (Etapa 1)",
                 fotos: [
                     { src: "hojalateriawindare01.jpg", desc: "Foto 1 - Evaluación del daño y anclaje en banco de estirado." },
-                    { src: "hojalateriawindare02.jpg", desc: "Foto 2 - Proceso de tracción para recuperar dimensiones originales." },
+                    { src: "hojalateriawindare02.jpg", desc: "Foto 2 - Proceso de tracción para recuperar dimensions originales." },
                     { src: "hojalateriawindare03.jpg", desc: "Foto 3 - Desabollado manual de paneles y marcos de puertas." },
                     { src: "hojalateriawindare04.jpg", desc: "Foto 4 - Ajuste de holguras y cuadraje de puertas laterales." },
                     { src: "hojalateriawindare05.jpg", desc: "Foto 5 - Detallado milimétrico de líneas de diseño de la lámina." },
@@ -384,7 +389,6 @@
             var error = document.getElementById('errorMessage');
             var galleryContainer = document.getElementById('galleryContainer');
             
-            // Sistema inteligente de búsqueda (acepta variaciones)
             var targetKey = null;
             if (input === 'GCH') targetKey = 'GCH';
             else if (input === 'VOCHO' || input === 'VW') targetKey = 'VOCHO';
